@@ -1,6 +1,6 @@
 {
   "name": "cfd-dlc-js-wasm",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "domain": "p2pderivatives",
   "repository": {
     "type": "git",
