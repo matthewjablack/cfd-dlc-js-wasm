@@ -25,6 +25,100 @@ export interface AddSignaturesToRefundTxResponse {
     hex: string;
 }
 
+export interface TxInInfoRequest {
+    txid: string;
+    vout: number;
+    redeemScript?: string;
+    maxWitnessLength: number;
+    inputSerialId?: bigint | number;
+}
+
+export interface TxInInfoRequest {
+    txid: string;
+    vout: number;
+    redeemScript?: string;
+    maxWitnessLength: number;
+    inputSerialId?: bigint | number;
+}
+
+export interface CreateBatchDlcTransactionsRequest {
+    localPayouts: bigint | number[];
+    remotePayouts: bigint | number[];
+    numPayouts: bigint | number[];
+    localFundPubkeys: string[];
+    localFinalScriptPubkeys: string[];
+    remoteFundPubkeys: string[];
+    remoteFinalScriptPubkeys: string[];
+    localInputAmount: bigint | number;
+    localCollateralAmounts: bigint | number[];
+    localPayoutSerialIds: bigint | number[];
+    localChangeSerialId: bigint | number;
+    remoteInputAmount: bigint | number;
+    remoteCollateralAmounts: bigint | number[];
+    remotePayoutSerialIds: bigint | number[];
+    remoteChangeSerialId: bigint | number;
+    refundLocktimes: bigint | number[];
+    localInputs: TxInInfoRequest[];
+    localChangeScriptPubkey: string;
+    remoteInputs: TxInInfoRequest[];
+    remoteChangeScriptPubkey: string;
+    feeRate: number;
+    cetLockTime?: bigint | number;
+    fundLockTime?: bigint | number;
+    fundOutputSerialIds?: bigint | number[];
+}
+
+export interface CreateBatchDlcTransactionsResponse {
+    fundTxHex: string;
+    cetsHexList: string[];
+    refundTxHexList: string[];
+}
+
+export interface TxInInfoRequest {
+    txid: string;
+    vout: number;
+    redeemScript?: string;
+    maxWitnessLength: number;
+    inputSerialId?: bigint | number;
+}
+
+export interface TxOutRequest {
+    amount: bigint | number;
+    address: string;
+}
+
+export interface TxInInfoRequest {
+    txid: string;
+    vout: number;
+    redeemScript?: string;
+    maxWitnessLength: number;
+    inputSerialId?: bigint | number;
+}
+
+export interface TxOutRequest {
+    amount: bigint | number;
+    address: string;
+}
+
+export interface CreateBatchFundTransactionRequest {
+    localPubkeys: string[];
+    remotePubkeys: string[];
+    outputAmounts: bigint | number[];
+    localInputs: TxInInfoRequest[];
+    localChange: TxOutRequest;
+    remoteInputs: TxInInfoRequest[];
+    remoteChange: TxOutRequest;
+    feeRate: bigint | number;
+    lockTime?: bigint | number;
+    localSerialId?: bigint | number;
+    remoteSerialId?: bigint | number;
+    outputSerialIds: bigint | number[];
+}
+
+export interface CreateBatchFundTransactionResponse {
+    hex: string;
+}
+
 export interface CreateCetRequest {
     localFundPubkey: string;
     remoteFundPubkey: string;
@@ -35,6 +129,8 @@ export interface CreateCetRequest {
     fundTxId: string;
     fundVout?: number;
     lockTime: bigint | number;
+    localSerialId?: bigint | number;
+    remoteSerialId?: bigint | number;
 }
 
 export interface CreateCetResponse {
@@ -95,6 +191,7 @@ export interface TxInInfoRequest {
     vout: number;
     redeemScript?: string;
     maxWitnessLength: number;
+    inputSerialId?: bigint | number;
 }
 
 export interface TxInInfoRequest {
@@ -102,6 +199,7 @@ export interface TxInInfoRequest {
     vout: number;
     redeemScript?: string;
     maxWitnessLength: number;
+    inputSerialId?: bigint | number;
 }
 
 export interface CreateDlcTransactionsRequest {
@@ -112,8 +210,12 @@ export interface CreateDlcTransactionsRequest {
     remoteFinalScriptPubkey: string;
     localInputAmount: bigint | number;
     localCollateralAmount: bigint | number;
+    localPayoutSerialId: bigint | number;
+    localChangeSerialId: bigint | number;
     remoteInputAmount: bigint | number;
     remoteCollateralAmount: bigint | number;
+    remotePayoutSerialId: bigint | number;
+    remoteChangeSerialId: bigint | number;
     refundLocktime: bigint | number;
     localInputs: TxInInfoRequest[];
     localChangeScriptPubkey: string;
@@ -122,6 +224,7 @@ export interface CreateDlcTransactionsRequest {
     feeRate: number;
     cetLockTime?: bigint | number;
     fundLockTime?: bigint | number;
+    fundOutputSerialId?: bigint | number;
     optionDest?: string;
     optionPremium?: bigint | number;
 }
@@ -132,9 +235,12 @@ export interface CreateDlcTransactionsResponse {
     refundTxHex: string;
 }
 
-export interface TxInRequest {
+export interface TxInInfoRequest {
     txid: string;
     vout: number;
+    redeemScript?: string;
+    maxWitnessLength: number;
+    inputSerialId?: bigint | number;
 }
 
 export interface TxOutRequest {
@@ -142,9 +248,12 @@ export interface TxOutRequest {
     address: string;
 }
 
-export interface TxInRequest {
+export interface TxInInfoRequest {
     txid: string;
     vout: number;
+    redeemScript?: string;
+    maxWitnessLength: number;
+    inputSerialId?: bigint | number;
 }
 
 export interface TxOutRequest {
@@ -156,13 +265,17 @@ export interface CreateFundTransactionRequest {
     localPubkey: string;
     remotePubkey: string;
     outputAmount: bigint | number;
-    localInputs: TxInRequest[];
+    localInputs: TxInInfoRequest[];
     localChange: TxOutRequest;
-    remoteInputs: TxInRequest[];
+    remoteInputs: TxInInfoRequest[];
     remoteChange: TxOutRequest;
     feeRate: bigint | number;
     optionDest?: string;
     optionPremium?: bigint | number;
+    lockTime?: bigint | number;
+    localSerialId?: bigint | number;
+    remoteSerialId?: bigint | number;
+    outputSerialId?: bigint | number;
 }
 
 export interface CreateFundTransactionResponse {
@@ -324,6 +437,8 @@ export interface VerifyRefundTxSignatureResponse {
 export class Cfddlcjs {
     AddSignatureToFundTransaction(jsonObject: AddSignatureToFundTransactionRequest): Promise<AddSignatureToFundTransactionResponse>;
     AddSignaturesToRefundTx(jsonObject: AddSignaturesToRefundTxRequest): Promise<AddSignaturesToRefundTxResponse>;
+    CreateBatchDlcTransactions(jsonObject: CreateBatchDlcTransactionsRequest): Promise<CreateBatchDlcTransactionsResponse>;
+    CreateBatchFundTransaction(jsonObject: CreateBatchFundTransactionRequest): Promise<CreateBatchFundTransactionResponse>;
     CreateCet(jsonObject: CreateCetRequest): Promise<CreateCetResponse>;
     CreateCetAdaptorSignature(jsonObject: CreateCetAdaptorSignatureRequest): Promise<CreateCetAdaptorSignatureResponse>;
     CreateCetAdaptorSignatures(jsonObject: CreateCetAdaptorSignaturesRequest): Promise<CreateCetAdaptorSignaturesResponse>;
